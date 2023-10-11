@@ -8,7 +8,7 @@ from tensorflow.keras.optimizers import Adam
 import matplotlib.pyplot as plt
 
 
-# Define your data directories
+# Defining our data directories
 train_dir = 'Dataset/train'
 val_dir = 'Dataset/eval'
 
@@ -37,9 +37,10 @@ val_generator = val_datagen.flow_from_directory(
     batch_size=32,
     class_mode='categorical')
 
-# Assuming num_classes is the total number of unique class labels
+# num_classes is the number of unique class labels
 num_classes = len(train_generator.class_indices)
 
+# Using class weights to balance the weights of data of all classes 
 class_weights = {}
 total_samples = train_generator.samples
 
@@ -48,10 +49,9 @@ for class_label, class_index in train_generator.class_indices.items():
     weight = (1.0 / class_count) * (total_samples / num_classes) if class_count > 0 else 0.0
     class_weights[class_index] = weight
 
-# Verify that class weights are now indexed by class index
 print(class_weights)
 
-# Create the Xception model
+# Creating the Xception model
 base_model = Xception(weights='imagenet', include_top=False)
 x = base_model.output
 x = GlobalAveragePooling2D()(x)
@@ -61,7 +61,7 @@ predictions = Dense(units=7, activation='softmax')(x)  # Change num_classes to u
 
 model = Model(inputs=base_model.input, outputs=predictions)
 
-# Compile the model
+# Compiling the model
 model.compile(optimizer=Adam(lr=0.0001), loss='categorical_crossentropy', metrics=['accuracy'])
 
 
@@ -83,5 +83,5 @@ plt.plot(history.history['val_accuracy'], label='Validation Accuracy')
 plt.legend()
 plt.savefig('training_history.png')
 
-# Save the model
+# Saving the model
 model.save('skin_disease_model.h5')
