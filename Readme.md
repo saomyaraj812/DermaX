@@ -2,13 +2,13 @@
 
 ## Table of Contents
 
-- [Introduction]
-- [Features]
-- [Getting Started]
-- [Prerequisites]
-- [Dataset]
-- [Model]
-- [Contributing]
+- Introduction
+- Features
+- Getting Started
+- Prerequisites
+- Dataset
+- Model
+- Contributing
 
 ## Introduction
 
@@ -23,6 +23,10 @@ Welcome to our Skin Disease Diagnosis project! This project leverages the power 
 ## Getting Started
 
 Follow these instructions to get a copy of the project up and running on your local machine for development and testing purposes.
+
+- Clone the repository into your machine
+- Make the desired changes
+- Push the changes
 
 ## Prerequisites
 
@@ -45,7 +49,7 @@ We used the Xception architecture for our model. Xception is a deep convolutiona
 
 We welcome contributions from the community. To contribute to this project, please follow these steps:
 
-Fork the repository.
-Create a new branch.
-Make your changes and test them.
-Submit a pull request with a detailed description of your changes.
+- Fork the repository.
+- Create a new branch.
+- Make your changes and test them.
+- Submit a pull request with a detailed description of your changes.
