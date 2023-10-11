@@ -37,12 +37,27 @@ val_generator = val_datagen.flow_from_directory(
     batch_size=32,
     class_mode='categorical')
 
+# Assuming num_classes is the total number of unique class labels
+num_classes = len(train_generator.class_indices)
+
+class_weights = {}
+total_samples = train_generator.samples
+
+for class_label, class_index in train_generator.class_indices.items():
+    class_count = np.sum(train_generator.classes == class_index)
+    weight = (1.0 / class_count) * (total_samples / num_classes) if class_count > 0 else 0.0
+    class_weights[class_index] = weight
+
+# Verify that class weights are now indexed by class index
+print(class_weights)
+
 # Create the Xception model
 base_model = Xception(weights='imagenet', include_top=False)
 x = base_model.output
 x = GlobalAveragePooling2D()(x)
 x = Dense(1024, activation='relu')(x)
-predictions = Dense(units=9, activation='softmax')(x)  # Change num_classes to units
+x = Dropout(0.5)(x)
+predictions = Dense(units=7, activation='softmax')(x)  # Change num_classes to units
 
 model = Model(inputs=base_model.input, outputs=predictions)
 
@@ -52,12 +67,12 @@ model.compile(optimizer=Adam(lr=0.0001), loss='categorical_crossentropy', metric
 
 # Training the model
 history = model.fit(
-
     train_generator,
     steps_per_epoch=train_generator.samples // train_generator.batch_size,
     validation_data=val_generator,
     validation_steps=val_generator.samples // val_generator.batch_size,
-    epochs=15)
+    epochs=15,
+    class_weight=class_weights)
 
 
 # Plot training history
