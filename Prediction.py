@@ -3,7 +3,7 @@ from sklearn.metrics import accuracy_score, classification_report
 from PIL import Image
 import numpy as np
 
-model = tf.keras.models.load_model('skin_disease_inceptionv4_model.h5')
+model = tf.keras.models.load_model('skin_disease_model.h5')
 
 
 image = Image.open('smallDataset/eval/Seborrheic Keratoses and other Benign Tumors/t-dermatofibroma-79.jpg')
